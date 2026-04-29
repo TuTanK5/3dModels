@@ -51,9 +51,27 @@ module CableHolder() {
     }
 }
 
+module shirt_base() {
+    difference() {
+        union() {
+            right(cable_holder_radius + magnet_base_diameter/2) cylinder(d=magnet_base_diameter, h=magnet_base_height, anchor=BOT);
+            left(cable_holder_radius + magnet_base_diameter/2) cylinder(d=magnet_base_diameter, h=magnet_base_height, anchor=BOT);
+            cube([magnet_base_diameter + 2 * cable_holder_radius, magnet_base_diameter, magnet_base_height], anchor=BOT);
+        }
+        union() {
+            down(small_delta) right(cable_holder_radius + magnet_base_diameter/2)
+                cylinder(h=magnet_hole_height + small_delta, r1=magnet_hole_radius, r2=magnet_hole_outer_radius, anchor=BOT);
+            down(small_delta) left(cable_holder_radius + magnet_base_diameter/2)
+                cylinder(h=magnet_hole_height + small_delta, r1=magnet_hole_radius, r2=magnet_hole_outer_radius, anchor=BOT);
+            }
+    }
+}
+
 // Actual model
 union() {
     right(cable_holder_radius + magnet_base_diameter/2) MagnetBase(right=true);
     left(cable_holder_radius + magnet_base_diameter/2) MagnetBase();
     CableHolder();
 }
+
+fwd(10) tilt(FWD) shirt_base();
